@@ -1,0 +1,10 @@
+[
+  {
+    "mission_id": "M001",
+    "pickup_point": [2.0, 3.0],
+    "delivery_point": [5.0, 7.0],
+    "priority": "NORMAL",
+    "payload_weight": 10.0,
+    "status": "pending"
+  }
+]

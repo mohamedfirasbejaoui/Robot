@@ -1,0 +1,143 @@
+{
+  "navigation": {
+    "slam": {
+      "enabled": true,
+      "update_interval_steps": 3,
+      "grid_resolution": 0.1,
+      "grid_size": 300,
+      "prob_increase_occupied": 0.3,
+      "prob_increase_free": 0.2,
+      "threshold_occupied": 0.7,
+      "threshold_free": 0.3
+    },
+
+    "planning": {
+      "a_star_enabled": true,
+      "replan_interval_steps": 30,
+      "max_iterations": 20000,
+      "heuristic": "euclidean",
+      "movements": 8,
+      "goal_threshold": 0.3,
+      "timeout_ms": 500
+    },
+
+    "pure_pursuit": {
+      "enabled": true,
+      "lookahead_distance": 0.8,
+      "linear_gain": 0.8,
+      "angular_gain": 3.0,
+      "deadband": 0.03,
+      "command_history_length": 5,
+      "smoothing_type": "moving_average"
+    },
+
+    "kinematics": {
+      "wheel_radius": 0.15,
+      "wheel_base": 0.5,
+      "max_linear_speed": 1.8,
+      "max_angular_speed": 4.0,
+      "max_motor_speed": 20.0
+    }
+  },
+
+  "safety": {
+    "enabled": true,
+    "detection_mode": "360_degree_8_sectors",
+    "lidar_sectors": 8,
+    "levels": [
+      {
+        "name": "CRITICAL",
+        "threshold": 0.3,
+        "action": "reverse",
+        "velocity": -1.5,
+        "angular": 0,
+        "priority": 1
+      },
+      {
+        "name": "DANGER",
+        "threshold": 0.6,
+        "action": "stop_and_turn",
+        "velocity": 0,
+        "angular": "best_direction * 3.0",
+        "priority": 2
+      },
+      {
+        "name": "SLOW",
+        "threshold": 1.2,
+        "action": "reduce_velocity",
+        "velocity_factor": 0.2,
+        "angular_compensation": "best_direction * 1.5",
+        "priority": 3
+      },
+      {
+        "name": "CAUTION",
+        "threshold": 1.8,
+        "action": "moderate_velocity",
+        "velocity_factor": 0.5,
+        "angular_compensation": "best_direction * 0.8",
+        "priority": 4
+      },
+      {
+        "name": "SAFE",
+        "threshold": 2.5,
+        "action": "normal_navigation",
+        "priority": 5
+      }
+    ]
+  },
+
+  "sensors": {
+    "gps": {
+      "enabled": true,
+      "update_rate_hz": 32,
+      "output_format": "xyz"
+    },
+    "imu": {
+      "enabled": true,
+      "update_rate_hz": 32,
+      "output_format": "roll_pitch_yaw"
+    },
+    "lidar": {
+      "enabled": true,
+      "update_rate_hz": 32,
+      "max_range": 10.0,
+      "min_range": 0.1,
+      "fov_degrees": 360,
+      "resolution_degrees": 0.5,
+      "points_per_scan": 720
+    },
+    "camera": {
+      "enabled": true,
+      "update_rate_hz": 16,
+      "width": 320,
+      "height": 240,
+      "fov_degrees": 60
+    }
+  },
+
+  "debugging": {
+    "verbose": true,
+    "log_interval_steps": 40,
+    "log_position": true,
+    "log_distance": true,
+    "log_obstacles": true,
+    "log_safety_level": true,
+    "save_map": true,
+    "map_filename": "map.pkl",
+    "log_filename": "robot_navigation.log"
+  },
+
+  "exploration": {
+    "enabled": false,
+    "mode": "frontier_based",
+    "max_exploration_time_steps": 10000
+  },
+
+  "performance": {
+    "main_loop_frequency_hz": 20,
+    "lidar_latency_ms": 31,
+    "gps_latency_ms": 31,
+    "control_latency_ms": 50,
+    "total_reaction_time_ms": 130
+  }
+}

@@ -1,0 +1,19 @@
+# Python 3.8+
+# Les modules suivants sont intégrés à Python et ne nécessitent PAS pip install:
+# - math
+# - os
+# - sys
+# - time
+# - pickle
+# - collections (deque)
+# - heapq
+
+# AUCUNE dépendance externe requise!
+
+# Optionnel (pour analyse avancée):
+# matplotlib>=3.3.0   # Pour visualiser les cartes
+# numpy>=1.19.0       # Pour manipuler les grilles
+# scipy>=1.5.0        # Pour traitement de signal avancé
+
+# Installation optionnelle:
+# pip install matplotlib numpy scipy

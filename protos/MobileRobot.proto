@@ -1,0 +1,459 @@
+#VRML_SIM R2023b utf8
+# Professional Mechanical Mobile Robot - Industrial Design
+
+PROTO MobileRobot [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 0 1 0
+  field SFString   name            "mobile_robot"
+  field SFString   controller      "mobile_robot_controller"
+  field SFString   controllerArgs  ""
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+
+    children [
+
+      # =====================
+      # MAIN CHASSIS - Industrial Design
+      # =====================
+      DEF BASE_CHASSIS Transform {
+        translation 0 0 0
+        children [
+          # Lower chassis plate (dark metal)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.25
+              roughness 0.8
+              metalness 0.9
+            }
+            geometry Box { size 0.6 0.4 0.05 }
+          }
+        ]
+      }
+      
+      # Upper chassis plate
+      Transform {
+        translation 0 0 0.1
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.15 0.15 0.2
+              roughness 0.7
+              metalness 0.9
+            }
+            geometry Box { size 0.55 0.35 0.03 }
+          }
+        ]
+      }
+      
+      # Chassis support pillars (metal reinforcement)
+      Transform {
+        translation 0.25 0.15 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.3 0.3 0.35
+              roughness 0.6
+              metalness 1
+            }
+            geometry Cylinder { radius 0.02 height 0.1 }
+          }
+        ]
+      }
+      Transform {
+        translation -0.25 0.15 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.3 0.3 0.35
+              roughness 0.6
+              metalness 1
+            }
+            geometry Cylinder { radius 0.02 height 0.1 }
+          }
+        ]
+      }
+      Transform {
+        translation 0.25 -0.15 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.3 0.3 0.35
+              roughness 0.6
+              metalness 1
+            }
+            geometry Cylinder { radius 0.02 height 0.1 }
+          }
+        ]
+      }
+      Transform {
+        translation -0.25 -0.15 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.3 0.3 0.35
+              roughness 0.6
+              metalness 1
+            }
+            geometry Cylinder { radius 0.02 height 0.1 }
+          }
+        ]
+      }
+
+      # =====================
+      # INDUSTRIAL WHEELS with Rims
+      # =====================
+      DEF WheelAppearance PBRAppearance {
+        baseColor 0.1 0.1 0.1
+        roughness 1
+        metalness 0
+      }
+      
+      DEF WheelRimAppearance PBRAppearance {
+        baseColor 0.4 0.4 0.45
+        roughness 0.5
+        metalness 0.8
+      }
+
+      # Front Left Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters { position 0 axis 0 1 0 anchor 0.2 0.25 -0.05 }
+        device [
+          RotationalMotor { name "front_left_wheel_motor" maxVelocity 10 maxTorque 10 }
+          PositionSensor { name "front_left_wheel_sensor" }
+        ]
+        endPoint Solid {
+          translation 0.2 0.25 -0.05
+          rotation 1 0 0 1.5708
+          children [
+            # Tire (black rubber)
+            Shape {
+              appearance USE WheelAppearance
+              geometry Cylinder { height 0.06 radius 0.1 }
+            }
+            # Wheel rim (metal)
+            Transform {
+              children [
+                Shape {
+                  appearance USE WheelRimAppearance
+                  geometry Cylinder { height 0.04 radius 0.06 }
+                }
+              ]
+            }
+            # Hub center (shiny metal)
+            Transform {
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.5 0.5 0.55
+                    roughness 0.3
+                    metalness 1
+                  }
+                  geometry Cylinder { height 0.02 radius 0.025 }
+                }
+              ]
+            }
+          ]
+          name "front_left_wheel"
+          boundingObject Cylinder { height 0.06 radius 0.1 }
+          physics Physics { mass 1 }
+          contactMaterial "wheels"
+        }
+      }
+
+      # Front Right Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters { position 0 axis 0 1 0 anchor 0.2 -0.25 -0.05 }
+        device [
+          RotationalMotor { name "front_right_wheel_motor" maxVelocity 10 maxTorque 10 }
+          PositionSensor { name "front_right_wheel_sensor" }
+        ]
+        endPoint Solid {
+          translation 0.2 -0.25 -0.05
+          rotation 1 0 0 1.5708
+          children [
+            Shape { appearance USE WheelAppearance geometry Cylinder { height 0.06 radius 0.1 } }
+            Transform { children [ Shape { appearance USE WheelRimAppearance geometry Cylinder { height 0.04 radius 0.06 } } ] }
+            Transform { children [ Shape { appearance PBRAppearance { baseColor 0.5 0.5 0.55 roughness 0.3 metalness 1 } geometry Cylinder { height 0.02 radius 0.025 } } ] }
+          ]
+          name "front_right_wheel"
+          boundingObject Cylinder { height 0.06 radius 0.1 }
+          physics Physics { mass 1 }
+          contactMaterial "wheels"
+        }
+      }
+
+      # Rear Left Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters { position 0 axis 0 1 0 anchor -0.2 0.25 -0.05 }
+        device [
+          RotationalMotor { name "rear_left_wheel_motor" maxVelocity 10 maxTorque 10 }
+          PositionSensor { name "rear_left_wheel_sensor" }
+        ]
+        endPoint Solid {
+          translation -0.2 0.25 -0.05
+          rotation 1 0 0 1.5708
+          children [
+            Shape { appearance USE WheelAppearance geometry Cylinder { height 0.06 radius 0.1 } }
+            Transform { children [ Shape { appearance USE WheelRimAppearance geometry Cylinder { height 0.04 radius 0.06 } } ] }
+            Transform { children [ Shape { appearance PBRAppearance { baseColor 0.5 0.5 0.55 roughness 0.3 metalness 1 } geometry Cylinder { height 0.02 radius 0.025 } } ] }
+          ]
+          name "rear_left_wheel"
+          boundingObject Cylinder { height 0.06 radius 0.1 }
+          physics Physics { mass 1 }
+          contactMaterial "wheels"
+        }
+      }
+
+      # Rear Right Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters { position 0 axis 0 1 0 anchor -0.2 -0.25 -0.05 }
+        device [
+          RotationalMotor { name "rear_right_wheel_motor" maxVelocity 10 maxTorque 10 }
+          PositionSensor { name "rear_right_wheel_sensor" }
+        ]
+        endPoint Solid {
+          translation -0.2 -0.25 -0.05
+          rotation 1 0 0 1.5708
+          children [
+            Shape { appearance USE WheelAppearance geometry Cylinder { height 0.06 radius 0.1 } }
+            Transform { children [ Shape { appearance USE WheelRimAppearance geometry Cylinder { height 0.04 radius 0.06 } } ] }
+            Transform { children [ Shape { appearance PBRAppearance { baseColor 0.5 0.5 0.55 roughness 0.3 metalness 1 } geometry Cylinder { height 0.02 radius 0.025 } } ] }
+          ]
+          name "rear_right_wheel"
+          boundingObject Cylinder { height 0.06 radius 0.1 }
+          physics Physics { mass 1 }
+          contactMaterial "wheels"
+        }
+      }
+
+      # =====================
+      # PROFESSIONAL LIDAR MOUNT
+      # =====================
+      # LiDAR mounting post
+      Transform {
+        translation 0 0 0.15
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.25 0.25 0.3
+              roughness 0.6
+              metalness 0.9
+            }
+            geometry Cylinder { radius 0.03 height 0.1 }
+          }
+        ]
+      }
+      
+      # LiDAR sensor housing (dark metallic)
+      Transform {
+        translation 0 0 0.22
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.15
+              roughness 0.4
+              metalness 0.7
+              emissiveColor 0.05 0 0
+            }
+            geometry Cylinder { radius 0.055 height 0.04 }
+          }
+        ]
+      }
+      
+      # LiDAR lens/scanning window
+      Transform {
+        translation 0 0 0.24
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.1
+              roughness 0.1
+              metalness 0
+              transparency 0.3
+            }
+            geometry Cylinder { radius 0.05 height 0.01 }
+          }
+        ]
+      }
+      
+      Lidar {
+        translation 0 0 0.22
+        rotation 0 0 1 0
+        name "lidar"
+        horizontalResolution 512
+        fieldOfView 6.28
+        numberOfLayers 1
+        minRange 0.1
+        maxRange 10
+      }
+
+      # =====================
+      # PROFESSIONAL CAMERA SYSTEM
+      # =====================
+      # Camera mount bracket
+      Transform {
+        translation 0.28 0 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.25
+              roughness 0.7
+              metalness 0.8
+            }
+            geometry Box { size 0.04 0.08 0.06 }
+          }
+        ]
+      }
+      
+      # Camera housing (protective case)
+      Transform {
+        translation 0.31 0 0.05
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.15 0.15 0.2
+              roughness 0.5
+              metalness 0.7
+            }
+            geometry Box { size 0.06 0.12 0.07 }
+          }
+        ]
+      }
+      
+      # Camera lens (glass)
+      Transform {
+        translation 0.34 0 0.05
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.1
+              roughness 0.1
+              metalness 0.5
+            }
+            geometry Cylinder { radius 0.025 height 0.02 }
+          }
+        ]
+      }
+      
+      Camera {
+        translation 0.32 0 0.05
+        rotation 0 1 0 0
+        name "camera"
+        fieldOfView 1.047
+        width 640
+        height 480
+      }
+      
+      # =====================
+      # DISPLAY FOR CAMERA VIEW
+      # =====================
+      Display {
+        translation 0 0 0.12
+        name "display"
+        width 640
+        height 480
+      }
+
+      # =====================
+      # SENSORS
+      # =====================
+      GPS { translation 0 0 0.12 name "gps" }
+      InertialUnit { translation 0 0 0.12 name "imu" }
+      Gyro { translation 0 0 0.12 name "gyro" }
+      
+      # =====================
+      # BATTERY PACK (green metallic)
+      # =====================
+      Transform {
+        translation 0 0 0.025
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.15 0.3 0.15
+              roughness 0.6
+              metalness 0.4
+            }
+            geometry Box { size 0.3 0.2 0.04 }
+          }
+        ]
+      }
+      
+      # =====================
+      # LED STATUS INDICATORS
+      # =====================
+      # Front LED indicators (white)
+      Transform {
+        translation 0.28 0.1 0.08
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 1 1
+              roughness 0.2
+              metalness 0.8
+              emissiveColor 0.8 0.8 1
+            }
+            geometry Sphere { radius 0.01 }
+          }
+        ]
+      }
+      
+      Transform {
+        translation 0.28 -0.1 0.08
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 1 1
+              roughness 0.2
+              metalness 0.8
+              emissiveColor 0.8 0.8 1
+            }
+            geometry Sphere { radius 0.01 }
+          }
+        ]
+      }
+      
+      # Status LED (green - system OK)
+      Transform {
+        translation 0 0.18 0.12
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 0.2
+              metalness 0.5
+              emissiveColor 0 0.8 0
+            }
+            geometry Sphere { radius 0.008 }
+          }
+        ]
+      }
+      
+      # Status LED (red - warning)
+      Transform {
+        translation 0 -0.18 0.12
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 0.2
+              metalness 0.5
+              emissiveColor 0.8 0 0
+            }
+            geometry Sphere { radius 0.008 }
+          }
+        ]
+      }
+
+    ]
+
+    boundingObject USE BASE_CHASSIS
+    physics Physics { mass 12 }
+  }
+}

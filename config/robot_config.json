@@ -1,0 +1,88 @@
+{
+  "robot": {
+    "name": "MobileRobotSafe",
+    "type": "differential_drive",
+    "frame": "base_link"
+  },
+  
+  "kinematics": {
+    "wheel_radius": 0.15,
+    "wheel_base": 0.5,
+    "max_linear_speed": 1.8,
+    "max_angular_speed": 4.0,
+    "max_motor_speed": 20.0
+  },
+  
+  "wheels": {
+    "front_left": {
+      "position": [0.25, 0.3],
+      "radius": 0.15,
+      "mass": 2.0
+    },
+    "front_right": {
+      "position": [-0.25, 0.3],
+      "radius": 0.15,
+      "mass": 2.0
+    },
+    "rear_left": {
+      "position": [0.25, -0.3],
+      "radius": 0.15,
+      "mass": 2.0
+    },
+    "rear_right": {
+      "position": [-0.25, -0.3],
+      "radius": 0.15,
+      "mass": 2.0
+    }
+  },
+  
+  "sensors": {
+    "gps": {
+      "enabled": true,
+      "update_rate": 32
+    },
+    "imu": {
+      "enabled": true,
+      "update_rate": 32
+    },
+    "lidar": {
+      "enabled": true,
+      "max_range": 10.0,
+      "fov": 360,
+      "resolution": 0.5,
+      "update_rate": 32
+    },
+    "camera": {
+      "enabled": true,
+      "width": 320,
+      "height": 240,
+      "fov": 60,
+      "update_rate": 16
+    }
+  },
+  
+  "safety": {
+    "critical_distance": 0.3,
+    "danger_distance": 0.6,
+    "slow_distance": 1.2,
+    "caution_distance": 1.8,
+    "safe_distance": 2.5,
+    "revert_speed": -1.5
+  },
+  
+  "planning": {
+    "slam_interval": 3,
+    "replan_interval": 30,
+    "goal_threshold": 0.3,
+    "grid_resolution": 0.1,
+    "grid_size": 300
+  },
+  
+  "control": {
+    "lookahead_distance": 0.8,
+    "linear_gain": 0.8,
+    "angular_gain": 3.0,
+    "deadband": 0.03,
+    "command_history_length": 5
+  }
+}

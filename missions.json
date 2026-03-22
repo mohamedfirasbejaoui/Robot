@@ -1,0 +1,26 @@
+[
+  {
+    "mission_id": "MISSION_001",
+    "pickup_point": [0, -7],
+    "delivery_point": [0, 7],
+    "priority": "HIGH",
+    "payload_weight": 5.0,
+    "status": "pending"
+  },
+  {
+    "mission_id": "MISSION_002",
+    "pickup_point": [-4, 4],
+    "delivery_point": [4, 4],
+    "priority": "NORMAL",
+    "payload_weight": 3.0,
+    "status": "pending"
+  },
+  {
+    "mission_id": "MISSION_003",
+    "pickup_point": [0, 0],
+    "delivery_point": [-7, 7],
+    "priority": "LOW",
+    "payload_weight": 2.0,
+    "status": "pending"
+  }
+]
