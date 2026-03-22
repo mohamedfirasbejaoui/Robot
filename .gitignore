@@ -52,3 +52,9 @@ Thumbs.db
 *~
 *.bak
 *.swp
+__pycache__/
+*.pyc
+*.pkl
+*.log
+build/
+install/
