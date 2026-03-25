@@ -6,7 +6,7 @@ PROTO MobileRobot [
   field SFRotation rotation        0 0 1 0
   field SFString   name            "mobile_robot"
   field SFString   controller      "mobile_robot_controller"
-  field SFString   controllerArgs  ""
+  field MFString   controllerArgs  []
 ]
 {
   Robot {
